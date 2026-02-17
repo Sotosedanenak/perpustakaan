@@ -73,26 +73,54 @@
 
     </main>
 
-    <script>
-        const searchInput = document.getElementById('searchInput');
-        const bookCards = document.querySelectorAll('.book-card');
+<script>
+    const bookGrid = document.getElementById('bookGrid');
+    const searchInput = document.getElementById('searchInput');
+    
+    // GANTI LINK INI dengan link "Publish to Web" CSV kamu tadi
+    const urlExcel = "TARUH_LINK_CSV_KAMU_DI_SINI";
 
-        searchInput.addEventListener('input', (e) => {
-            const searchText = e.target.value.toLowerCase();
-
-            bookCards.forEach(card => {
-                const title = card.querySelector('.book-title').innerText.toLowerCase();
-                const author = card.querySelector('.book-author').innerText.toLowerCase();
-
-                // Cek apakah judul atau penulis mengandung teks yang dicari
-                if (title.includes(searchText) || author.includes(searchText)) {
-                    card.style.display = "block"; // Munculkan
-                } else {
-                    card.style.display = "none"; // Sembunyikan
-                }
-            });
+    async function ambilDataExcel() {
+        const response = await fetch(urlExcel);
+        const data = await response.text();
+        
+        // Mengubah teks CSV menjadi Array
+        const baris = data.split('\n').slice(1); // Potong judul kolom
+        return baris.map(row => {
+            const [judul, penulis, kategori, status, gambar] = row.split(',');
+            return { judul, penulis, kategori, status, gambar };
         });
-    </script>
+    }
+
+    async function tampilkanBuku(filter = "") {
+        const dataBuku = await ambilDataExcel(); // Ambil data dari Excel
+        bookGrid.innerHTML = ""; 
+
+        dataBuku.forEach(buku => {
+            if (buku.judul.toLowerCase().includes(filter.toLowerCase())) {
+                const statusColor = buku.status.trim() === "Tersedia" ? "text-green-600" : "text-red-500";
+                
+                const kartu = `
+                    <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                        <img src="${buku.gambar}" class="w-full h-56 object-cover">
+                        <div class="p-5">
+                            <span class="text-xs font-bold text-blue-500 bg-blue-50 px-2 py-1 rounded">${buku.kategori}</span>
+                            <h3 class="text-xl font-bold mt-3">${buku.judul}</h3>
+                            <p class="text-gray-500 text-sm">${buku.penulis}</p>
+                            <div class="mt-5 flex justify-between border-t pt-4">
+                                <span class="${statusColor} font-bold text-sm">${buku.status}</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                bookGrid.innerHTML += kartu;
+            }
+        });
+    }
+
+    tampilkanBuku();
+    searchInput.addEventListener('input', (e) => tampilkanBuku(e.target.value));
+</script>
 
     <footer class="text-center p-8 text-gray-400 text-sm">
         <p>&copy; 2026 Perpustakaan Digital Sekolah - Dibuat oleh @Sotosedanenak</p>
@@ -100,3 +128,4 @@
 
 </body>
 </html>
+
