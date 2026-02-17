@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perpustakaan Digital Sekolah</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 font-sans">
+
+    <nav class="bg-blue-600 p-4 text-white shadow-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-2xl font-bold">E-Perpus Sekolah</h1>
+            <ul class="flex space-x-4">
+                <li><a href="#" class="hover:underline">Beranda</a></li>
+                <li><a href="#" class="hover:underline">Koleksi</a></li>
+                <li><a href="#" class="hover:underline">Kontak</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <header class="container mx-auto my-8 p-6 bg-white rounded-lg shadow-md text-center">
+        <h2 class="text-3xl font-semibold text-gray-800">Selamat Datang di Perpustakaan</h2>
+        <p class="text-gray-600 mt-2">Cari dan pinjam buku favoritmu dengan mudah.</p>
+        <div class="mt-4 flex justify-center">
+            <input type="text" placeholder="Cari judul buku..." class="border p-2 rounded-l-md w-64 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <button class="bg-blue-600 text-white px-4 py-2 rounded-r-md hover:bg-blue-700">Cari</button>
+        </div>
+    </header>
+
+    <main class="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+        
+        <div class="bg-white rounded-lg shadow overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&w=400&q=80" alt="Cover Buku" class="w-full h-48 object-cover">
+            <div class="p-4">
+                <span class="text-xs font-bold text-blue-500 uppercase">Sains</span>
+                <h3 class="text-xl font-bold mt-1">Filosofi Teras</h3>
+                <p class="text-gray-600 text-sm mt-2">Penulis: Henry Manampiring</p>
+                <div class="mt-4 flex justify-between items-center">
+                    <span class="text-green-600 font-semibold text-sm">Tersedia</span>
+                    <button class="bg-blue-500 text-white px-3 py-1 rounded text-sm hover:bg-blue-600">Pinjam</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=400&q=80" alt="Cover Buku" class="w-full h-48 object-cover">
+            <div class="p-4">
+                <span class="text-xs font-bold text-orange-500 uppercase">Novel</span>
+                <h3 class="text-xl font-bold mt-1">Laskar Pelangi</h3>
+                <p class="text-gray-600 text-sm mt-2">Penulis: Andrea Hirata</p>
+                <div class="mt-4 flex justify-between items-center">
+                    <span class="text-red-600 font-semibold text-sm">Dipinjam</span>
+                    <button class="bg-gray-400 text-white px-3 py-1 rounded text-sm cursor-not-allowed" disabled>Detail</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1532012197267-da84d127e765?auto=format&fit=crop&w=400&q=80" alt="Cover Buku" class="w-full h-48 object-cover">
+            <div class="p-4">
+                <span class="text-xs font-bold text-purple-500 uppercase">Sejarah</span>
+                <h3 class="text-xl font-bold mt-1">Bumi Manusia</h3>
+                <p class="text-gray-600 text-sm mt-2">Penulis: Pramoedya Ananta Toer</p>
+                <div class="mt-4 flex justify-between items-center">
+                    <span class="text-green-600 font-semibold text-sm">Tersedia</span>
+                    <button class="bg-blue-500 text-white px-3 py-1 rounded text-sm hover:bg-blue-600">Pinjam</button>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="text-center p-6 text-gray-500 border-t">
+        <p>&copy; 2026 Perpustakaan Digital Sekolah - Dibuat dengan 🔥</p>
+    </footer>
+
+</body>
+</html>
