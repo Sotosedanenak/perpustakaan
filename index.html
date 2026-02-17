@@ -3,130 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Perpustakaan Digital Sekolah</title>
+    <title>Perpustakaan Digital</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100 font-sans">
 
     <nav class="bg-blue-600 p-4 text-white shadow-lg">
         <div class="container mx-auto flex justify-between items-center">
-            <h1 class="text-2xl font-bold tracking-tight">E-Perpus Sekolah</h1>
-            <ul class="flex space-x-4">
-                <li><a href="#" class="hover:text-blue-200 transition">Beranda</a></li>
-                <li><a href="#" class="hover:text-blue-200 transition">Koleksi</a></li>
-            </ul>
+            <h1 class="text-2xl font-bold">E-Perpus Sekolah</h1>
         </div>
     </nav>
 
-    <header class="container mx-auto my-8 p-8 bg-white rounded-xl shadow-sm text-center border border-gray-100">
+    <header class="container mx-auto my-8 p-8 bg-white rounded-xl text-center">
         <h2 class="text-3xl font-extrabold text-gray-800">Cari Buku Favoritmu</h2>
-        <p class="text-gray-500 mt-2">Akses ribuan ilmu pengetahuan dalam satu klik.</p>
-        
         <div class="mt-6 flex justify-center">
-            <div class="relative w-full max-w-md">
-                <input type="text" id="searchInput" placeholder="Ketik judul buku atau penulis..." 
-                    class="w-full border-2 border-gray-200 p-3 rounded-lg focus:outline-none focus:border-blue-500 transition shadow-sm">
-            </div>
+            <input type="text" id="searchInput" placeholder="Cari buku..." class="w-full max-w-md border-2 p-3 rounded-lg">
         </div>
     </header>
 
-    <main id="bookContainer" class="container mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-12 px-4">
+    <main id="bookGrid" class="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 px-4">
+        </main>
+
+    <script>
+        const bookGrid = document.getElementById('bookGrid'); // Ini harus pas dengan ID di atas
+        const searchInput = document.getElementById('searchInput');
         
-        <div class="book-card bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300">
-            <img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&w=400&q=80" class="w-full h-56 object-cover">
-            <div class="p-5">
-                <span class="text-xs font-bold text-blue-500 bg-blue-50 px-2 py-1 rounded">Sains</span>
-                <h3 class="book-title text-xl font-bold mt-3 text-gray-800">Filosofi Teras</h3>
-                <p class="book-author text-gray-500 text-sm mt-1">Henry Manampiring</p>
-                <div class="mt-5 flex justify-between items-center border-t pt-4">
-                    <span class="text-green-600 font-bold text-sm">Tersedia</span>
-                    <button class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700">Pinjam</button>
-                </div>
-            </div>
-        </div>
+        // GANTI LINK INI dengan link CSV kamu dari Google Sheets
+        const urlExcel = "https://docs.google.com/spreadsheets/d/e/2PACX-1vROCMn91-Qilsgu3tDqTbpkM0eXDY0lbXj5bKTFK_h6tjA5VvQoMOxCfHI6hZ2ESVVTE3i8noQNWrXi/pub?gid=0&single=true&output=csv";
 
-        <div class="book-card bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300">
-            <img src="https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=400&q=80" class="w-full h-56 object-cover">
-            <div class="p-5">
-                <span class="text-xs font-bold text-orange-500 bg-orange-50 px-2 py-1 rounded">Novel</span>
-                <h3 class="book-title text-xl font-bold mt-3 text-gray-800">Laskar Pelangi</h3>
-                <p class="book-author text-gray-500 text-sm mt-1">Andrea Hirata</p>
-                <div class="mt-5 flex justify-between items-center border-t pt-4">
-                    <span class="text-red-500 font-bold text-sm">Dipinjam</span>
-                    <button class="bg-gray-300 text-gray-600 px-4 py-2 rounded-lg text-sm font-medium cursor-not-allowed" disabled>Detail</button>
-                </div>
-            </div>
-        </div>
-
-        <div class="book-card bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300">
-            <img src="https://images.unsplash.com/photo-1532012197267-da84d127e765?auto=format&fit=crop&w=400&q=80" class="w-full h-56 object-cover">
-            <div class="p-5">
-                <span class="text-xs font-bold text-purple-500 bg-purple-50 px-2 py-1 rounded">Sejarah</span>
-                <h3 class="book-title text-xl font-bold mt-3 text-gray-800">Bumi Manusia</h3>
-                <p class="book-author text-gray-500 text-sm mt-1">Pramoedya Ananta Toer</p>
-                <div class="mt-5 flex justify-between items-center border-t pt-4">
-                    <span class="text-green-600 font-bold text-sm">Tersedia</span>
-                    <button class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700">Pinjam</button>
-                </div>
-            </div>
-        </div>
-
-    </main>
-
-<script>
-    const bookGrid = document.getElementById('bookGrid');
-    const searchInput = document.getElementById('searchInput');
-    
-    // GANTI LINK INI dengan link "Publish to Web" CSV kamu tadi
-    const urlExcel = "https://docs.google.com/spreadsheets/d/e/2PACX-1vROCMn91-Qilsgu3tDqTbpkM0eXDY0lbXj5bKTFK_h6tjA5VvQoMOxCfHI6hZ2ESVVTE3i8noQNWrXi/pub?gid=0&single=true&output=csv";
-
-    async function ambilDataExcel() {
-        const response = await fetch(urlExcel);
-        const data = await response.text();
-        
-        // Mengubah teks CSV menjadi Array
-        const baris = data.split('\n').slice(1); // Potong judul kolom
-        return baris.map(row => {
-            const [judul, penulis, kategori, status, gambar] = row.split(',');
-            return { judul, penulis, kategori, status, gambar };
-        });
-    }
-
-    async function tampilkanBuku(filter = "") {
-        const dataBuku = await ambilDataExcel(); // Ambil data dari Excel
-        bookGrid.innerHTML = ""; 
-
-        dataBuku.forEach(buku => {
-            if (buku.judul.toLowerCase().includes(filter.toLowerCase())) {
-                const statusColor = buku.status.trim() === "Tersedia" ? "text-green-600" : "text-red-500";
+        async function tampilkanBuku(filter = "") {
+            try {
+                const response = await fetch(urlExcel);
+                const data = await response.text();
+                const baris = data.split('\n').slice(1);
                 
-                const kartu = `
-                    <div class="bg-white rounded-xl shadow-md overflow-hidden">
-                        <img src="${buku.gambar}" class="w-full h-56 object-cover">
-                        <div class="p-5">
-                            <span class="text-xs font-bold text-blue-500 bg-blue-50 px-2 py-1 rounded">${buku.kategori}</span>
-                            <h3 class="text-xl font-bold mt-3">${buku.judul}</h3>
-                            <p class="text-gray-500 text-sm">${buku.penulis}</p>
-                            <div class="mt-5 flex justify-between border-t pt-4">
-                                <span class="${statusColor} font-bold text-sm">${buku.status}</span>
-                            </div>
-                        </div>
-                    </div>
-                `;
-                bookGrid.innerHTML += kartu;
+                if (!bookGrid) return; // Pengaman agar tidak error null lagi
+                bookGrid.innerHTML = ""; 
+
+                baris.forEach(row => {
+                    const [judul, penulis, kategori, status, gambar] = row.split(',');
+                    if (judul && judul.toLowerCase().includes(filter.toLowerCase())) {
+                        const kartu = `
+                            <div class="bg-white rounded-xl shadow-md overflow-hidden p-4">
+                                <img src="${gambar}" class="w-full h-48 object-cover rounded-md">
+                                <h3 class="text-lg font-bold mt-2">${judul}</h3>
+                                <p class="text-sm text-gray-500">${penulis}</p>
+                                <p class="mt-2 font-bold ${status.trim() === 'Tersedia' ? 'text-green-600' : 'text-red-500'}">${status}</p>
+                            </div>`;
+                        bookGrid.innerHTML += kartu;
+                    }
+                });
+            } catch (err) {
+                console.error("Gagal ambil data:", err);
             }
-        });
-    }
+        }
 
-    tampilkanBuku();
-    searchInput.addEventListener('input', (e) => tampilkanBuku(e.target.value));
-</script>
-
-    <footer class="text-center p-8 text-gray-400 text-sm">
-        <p>&copy; 2026 Perpustakaan Digital Sekolah - Dibuat oleh @Sotosedanenak</p>
-    </footer>
-
+        tampilkanBuku();
+        searchInput.addEventListener('input', (e) => tampilkanBuku(e.target.value));
+    </script>
 </body>
 </html>
-
-
