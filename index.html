@@ -45,7 +45,9 @@
                     if (judul && judul.toLowerCase().includes(filter.toLowerCase())) {
                         const kartu = `
                             <div class="bg-white rounded-xl shadow-md overflow-hidden p-4">
-                                <img src="${gambar}" class="w-full h-48 object-cover rounded-md">
+                                <div class="w-full aspect-[2/3] overflow-hidden">
+                                    <img src="${gambar}" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300">
+                                </div>
                                 <h3 class="text-lg font-bold mt-2">${judul}</h3>
                                 <p class="text-sm text-gray-500">${penulis}</p>
                                 <p class="mt-2 font-bold ${status.trim() === 'Tersedia' ? 'text-green-600' : 'text-red-500'}">${status}</p>
@@ -63,3 +65,4 @@
     </script>
 </body>
 </html>
+
