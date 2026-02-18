@@ -20,7 +20,15 @@
             <input type="text" id="searchInput" placeholder="Cari buku..." class="w-full max-w-md border-2 p-3 rounded-lg">
         </div>
     </header>
-
+    <section class="container mx-auto px-4 mb-10">
+        <div class="flex items-center justify-between mb-4 border-b pb-2">
+            <h2 class="text-xl font-bold text-gray-800 tracking-tight">Kabar MAN IC Jambi</h2>
+            <a href="https://manicjambi.sch.id/blog" target="_blank" class="text-xs text-blue-600 font-semibold hover:underline">Lihat Semua</a>
+        </div>
+        <div id="newsContainer" class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+            <p class="text-gray-400 text-sm italic animate-pulse">Sedang memuat kabar madrasah...</p>
+        </div>
+    </section>
     <main id="bookGrid" class="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 px-4">
         </main>
 
@@ -62,7 +70,56 @@
 
         tampilkanBuku();
         searchInput.addEventListener('input', (e) => tampilkanBuku(e.target.value));
+
+        async function ambilBeritaSekolah() {
+    const newsContainer = document.getElementById('newsContainer');
+    
+    // Kita pakai jembatan 'allorigins' supaya nggak diblokir web sekolah
+    const targetUrl = encodeURIComponent("https://manicjambi.sch.id/blog");
+    const apiUrl = `https://api.allorigins.win/get?url=${targetUrl}`;
+
+    try {
+        const response = await fetch(apiUrl);
+        const data = await response.json();
+        
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(data.contents, 'text/html');
+        
+        // Mengambil postingan berita (disesuaikan dengan struktur MAN IC Jambi)
+        const posts = doc.querySelectorAll('.post-item, article, .blog-item'); 
+
+        if (posts.length === 0) {
+            newsContainer.innerHTML = "<p class='text-gray-400 text-xs italic text-center col-span-3'>Berita akan diperbarui segera.</p>";
+            return;
+        }
+
+        newsContainer.innerHTML = ""; 
+
+        posts.forEach((post, index) => {
+            if (index < 3) { // Hanya ambil 3 berita teratas
+                const title = post.querySelector('h3, h2, .title')?.innerText || "Berita Terbaru";
+                const link = post.querySelector('a')?.href.replace(window.location.origin, "https://manicjambi.sch.id") || "#";
+                const img = post.querySelector('img')?.src.replace(window.location.origin, "https://manicjambi.sch.id") || "https://manicjambi.sch.id/assets/images/logo.png";
+
+                newsContainer.innerHTML += `
+                    <div class="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100 flex flex-col hover:shadow-md transition duration-300">
+                        <img src="${img}" class="w-full h-40 object-cover">
+                        <div class="p-4">
+                            <h3 class="font-bold text-gray-800 text-sm line-clamp-2">${title}</h3>
+                            <a href="${link}" target="_blank" class="mt-4 text-[10px] font-bold text-blue-600 hover:text-blue-800 tracking-widest uppercase inline-block">Baca Selengkapnya</a>
+                        </div>
+                    </div>`;
+            }
+        });
+    } catch (err) {
+        newsContainer.innerHTML = "<p class='text-gray-400 text-xs italic'>Gagal memuat berita sekolah.</p>";
+    }
+}
+
+// JANGAN LUPA PANGGIL FUNGSINYA
+ambilBeritaSekolah();
     </script>
 </body>
 </html>
+
 
