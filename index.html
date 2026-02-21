@@ -3,157 +3,250 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Perpustakaan Digital</title>
+    <title>Digital Library | MAN IC Jambi</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
+        .bg-itb { background-color: #002d55; }
+        .text-itb { color: #002d55; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        /* Animasi Fokus Search */
+        #searchInput:focus {
+            transform: scale(1.02);
+            box-shadow: 0 10px 25px -5px rgba(0, 45, 85, 0.1);
+        }
+    </style>
 </head>
-<body class="bg-gray-100 font-sans">
+<body class="bg-[#f8f9fa] text-gray-800">
 
-    <nav class="bg-blue-600 p-4 text-white shadow-lg">
-        <div class="container mx-auto flex justify-between items-center">
-            <h1 class="text-2xl font-bold">E-Perpus Sekolah</h1>
+    <nav class="bg-itb text-white py-4 shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-6 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <img src="https://manicjambi.sch.id/img/identitas/icputih.png" class="h-10" alt="Logo">
+                <div class="border-l pl-3 hidden sm:block leading-tight">
+                    <h1 class="text-sm font-bold uppercase tracking-wider">UPT Perpustakaan</h1>
+                    <p class="text-[10px] text-blue-200">Insan Cendekia Jambi</p>
+                </div>
+            </div>
+            <div class="text-xs font-semibold space-x-6 uppercase tracking-widest">
+                <a href="#" class="hover:text-blue-300">Beranda</a>
+                <a href="#koleksi" class="hover:text-blue-300">Koleksi</a>
+            </div>
         </div>
     </nav>
 
-    <header class="container mx-auto my-8 p-8 bg-white rounded-xl text-center">
-        <h2 class="text-3xl font-extrabold text-gray-800">Cari Buku Favoritmu</h2>
-        <div class="mt-6 flex justify-center">
-            <input type="text" id="searchInput" placeholder="Cari buku..." class="w-full max-w-md border-2 p-3 rounded-lg">
+    <header class="bg-white border-b py-20">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-3xl font-light text-gray-700 mb-2">Pencarian <span class="font-bold text-itb">Katalog Digital</span></h2>
+            <div class="max-w-2xl mx-auto relative mt-8 group">
+                <div class="relative flex items-center">
+                    <input type="text" id="searchInput" autocomplete="off" placeholder="Cari judul buku atau penulis..." 
+                           class="w-full border-2 border-gray-200 p-4 rounded-full pl-8 focus:border-blue-500 outline-none transition-all duration-300 shadow-sm text-sm">
+                    <button onclick="redirectSearch()" class="absolute right-3 bg-itb text-white px-6 py-2 rounded-full text-xs font-bold hover:bg-blue-800 transition">CARI</button>
+                </div>
+                
+                <div id="recommendationBox" class="hidden absolute top-full left-0 right-0 bg-white border mt-2 rounded-2xl shadow-xl z-40 overflow-hidden text-left">
+                    <div class="p-4 bg-gray-50 border-b text-[10px] font-bold text-gray-400 uppercase tracking-widest">Rekomendasi Untukmu</div>
+                    <div id="recList">
+                        </div>
+                </div>
+            </div>
         </div>
     </header>
-    <section class="container mx-auto px-4 mb-10">
-        <div class="flex items-center justify-between mb-4 border-b pb-2">
-            <h2 class="text-xl font-bold text-gray-800 tracking-tight">Berita MAN IC Jambi</h2>
-            <a href="https://manicjambi.sch.id/blog" target="_blank" class="text-xs text-blue-600 font-semibold hover:underline">Lihat Semua</a>
+
+    <section class="container mx-auto px-6 my-16 overflow-hidden">
+        <div class="flex items-center justify-between mb-8">
+            <h2 class="text-xl font-bold text-gray-800 uppercase tracking-tighter">Kabar Madrasah</h2>
         </div>
-        <div id="newsContainer" class="grid grid-cols-1 sm:grid-cols-3 gap-6">
-            <p class="text-gray-400 text-sm italic animate-pulse">Sedang memuat berita madrasah...</p>
+        <div class="relative group">
+            <div id="newsContainer" class="flex gap-6 overflow-x-auto no-scrollbar scroll-smooth">
+                </div>
         </div>
     </section>
-    <main id="bookGrid" class="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 px-4">
-        </main>
+
+    <section id="koleksi" class="container mx-auto px-6 mb-24">
+        <div class="flex items-center gap-4 mb-8">
+            <h2 class="text-2xl font-bold text-gray-800 uppercase tracking-tighter">Koleksi Buku</h2>
+            <div class="h-[2px] bg-gray-200 flex-grow"></div>
+        </div>
+        
+        <main id="bookGrid" class="grid grid-cols-2 md:grid-cols-5 gap-8">
+            </main>
+
+        <div class="flex justify-center items-center mt-12 gap-4">
+            <button id="prevBtn" class="px-4 py-2 bg-itb text-white rounded-lg disabled:opacity-20 text-[10px] font-bold uppercase">Prev</button>
+            <span id="pageInfo" class="text-xs font-bold text-gray-400 italic">Hal 1</span>
+            <button id="nextBtn" class="px-4 py-2 bg-itb text-white rounded-lg disabled:opacity-20 text-[10px] font-bold uppercase">Next</button>
+        </div>
+    </section>
+
+    <footer class="bg-[#1a1a1a] text-white pt-16 pb-8">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
+                <div>
+                    <img src="https://manicjambi.sch.id/img/identitas/icputih.png" class="h-12 mb-6" alt="Logo">
+                    <p class="text-sm text-gray-400 leading-relaxed">Jl. Lintas Jambi No.KM. 21, Pijoan, Kec. Jambi Luar Kota, Kabupaten Muaro Jambi, Jambi 36361, Indonesia</p>
+                </div>
+                <div>
+                    <h5 class="font-bold text-sm uppercase tracking-widest mb-6 text-blue-400">Navigasi</h5>
+                    <ul class="text-sm text-gray-500 space-y-3">
+                        <li><a href="#" class="hover:text-white transition">Visi & Misi</a></li>
+                        <li><a href="#" class="hover:text-white transition">Struktur Organisasi</a></li>
+                        <li><a href="#" class="hover:text-white transition">Fasilitas</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h5 class="font-bold text-sm uppercase tracking-widest mb-6 text-blue-400">Hubungi Kami</h5>
+                    <p class="text-sm text-gray-500">Email: <span class="text-gray-300">info@manicjambi.sch.id</span></p>
+                    <p class="text-sm text-gray-500 mt-2">WA: <span class="text-gray-300">628117424910</span></p>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 pt-8 text-center">
+                <p class="text-[10px] text-gray-600 uppercase tracking-[0.2em]">© 2026 UPT Perpustakaan MAN IC Jambi. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
 
     <script>
-        const bookGrid = document.getElementById('bookGrid'); // Ini harus pas dengan ID di atas
-        const searchInput = document.getElementById('searchInput');
-        
-        // GANTI LINK INI dengan link CSV kamu dari Google Sheets
         const urlExcel = "https://docs.google.com/spreadsheets/d/e/2PACX-1vROCMn91-Qilsgu3tDqTbpkM0eXDY0lbXj5bKTFK_h6tjA5VvQoMOxCfHI6hZ2ESVVTE3i8noQNWrXi/pub?gid=0&single=true&output=csv";
+        const urlBeritaExcel = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQEVkB8Nyc04PZgG6RMmOQ5khLshL617nbrzBRxY8wU1S-OJZ3uoO9oLbaW9mihozSFxHtgEB3hSSBn/pub?gid=0&single=true&output=csv";
 
-        async function tampilkanBuku(filter = "") {
+        let allBooks = [];
+        let currentPage = 1;
+        const booksPerPage = 5;
+
+        // LOAD DATA BUKU & REKOMENDASI
+        async function loadBooks() {
             try {
                 const response = await fetch(urlExcel);
                 const data = await response.text();
                 const baris = data.split('\n').slice(1);
-                
-                if (!bookGrid) return; // Pengaman agar tidak error null lagi
-                bookGrid.innerHTML = ""; 
-
-                baris.forEach(row => {
-                    const [judul, penulis, kategori, status, gambar] = row.split(',');
-                    if (judul && judul.toLowerCase().includes(filter.toLowerCase())) {
-                        const kartu = `
-                            <div class="bg-white rounded-xl shadow-md overflow-hidden p-4">
-                                <div class="w-full aspect-[2/3] overflow-hidden">
-                                    <img src="${gambar}" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300">
-                                </div>
-                                <h3 class="text-lg font-bold mt-2">${judul}</h3>
-                                <p class="text-sm text-gray-500">${penulis}</p>
-                                <p class="mt-2 font-bold ${status.trim() === 'Tersedia' ? 'text-green-600' : 'text-red-500'}">${status}</p>
-                            </div>`;
-                        bookGrid.innerHTML += kartu;
-                    }
-                });
-            } catch (err) {
-                console.error("Gagal ambil data:", err);
-            }
+                allBooks = baris.map(row => row.split(',')).filter(r => r[0]);
+                renderBooks();
+                renderRecommendations();
+            } catch (err) { console.error(err); }
         }
 
-        tampilkanBuku();
-        searchInput.addEventListener('input', (e) => tampilkanBuku(e.target.value));
-        
-        // GANTI LINK INI dengan link CSV khusus Sheet BERITA kamu
-        const urlBeritaExcel = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQEVkB8Nyc04PZgG6RMmOQ5khLshL617nbrzBRxY8wU1S-OJZ3uoO9oLbaW9mihozSFxHtgEB3hSSBn/pub?gid=0&single=true&output=csv";
-        
-        async function ambilBeritaDariSheets() {
-            const newsContainer = document.getElementById('newsContainer');
+        function renderBooks(filter = "") {
+            const bookGrid = document.getElementById('bookGrid');
+            const filtered = allBooks.filter(b => b[0].toLowerCase().includes(filter.toLowerCase()));
             
+            const start = (currentPage - 1) * booksPerPage;
+            const end = start + booksPerPage;
+            const paginated = filtered.slice(start, end);
+
+            bookGrid.innerHTML = "";
+            paginated.forEach(b => {
+                bookGrid.innerHTML += `
+                    <div class="group cursor-pointer">
+                        <div class="aspect-[3/4] overflow-hidden rounded-xl shadow-sm group-hover:shadow-md transition duration-300">
+                            <img src="${b[4]}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                        </div>
+                        <div class="mt-4 px-1">
+                            <h3 class="text-[11px] font-bold text-gray-800 line-clamp-1">${b[0]}</h3>
+                            <p class="text-[10px] text-gray-400">${b[1]}</p>
+                        </div>
+                    </div>`;
+            });
+
+            document.getElementById('pageInfo').innerText = `Hal ${currentPage}`;
+            document.getElementById('prevBtn').disabled = currentPage === 1;
+            document.getElementById('nextBtn').disabled = end >= filtered.length;
+        }
+
+        // FUNGSI REKOMENDASI
+        function renderRecommendations() {
+            const recList = document.getElementById('recList');
+            // Ambil 3 buku acak untuk rekomendasi
+            const shuffled = [...allBooks].sort(() => 0.5 - Math.random()).slice(0, 3);
+            recList.innerHTML = "";
+            shuffled.forEach(b => {
+                recList.innerHTML += `
+                    <div class="flex items-center gap-4 p-3 hover:bg-gray-50 cursor-pointer transition border-b border-gray-100 last:border-0" onclick="document.getElementById('searchInput').value='${b[0]}'; redirectSearch();">
+                        <img src="${b[4]}" class="w-10 h-14 object-cover rounded shadow-sm">
+                        <div>
+                            <p class="text-xs font-bold text-gray-800">${b[0]}</p>
+                            <p class="text-[10px] text-gray-400">${b[1]}</p>
+                        </div>
+                    </div>`;
+            });
+        }
+
+        // REDIRECT SEARCH
+        function redirectSearch() {
+            const query = document.getElementById('searchInput').value;
+            if(!query) return alert("Masukkan kata kunci pencarian!");
+            
+            // Simulasi redirect ke web baru
+            const btn = document.querySelector('header button');
+            btn.innerHTML = "MEMUAT...";
+            setTimeout(() => {
+                // Ganti URL ini dengan web barumu nanti
+                window.location.href = `https://manicjambi.sch.id/katalog?cari=${encodeURIComponent(query)}`;
+            }, 800);
+        }
+
+        // LOAD BERITA & INFINITE LOOP
+        async function loadNews() {
+            const newsContainer = document.getElementById('newsContainer');
             try {
                 const response = await fetch(urlBeritaExcel);
                 const data = await response.text();
-                const baris = data.split('\n').slice(1); // Potong judul kolom
-        
-                newsContainer.innerHTML = ""; 
-        
-                baris.forEach(row => {
+                const baris = data.split('\n').slice(1).filter(r => r[0]);
+                
+                // Gandakan data berita agar bisa di-loop tanpa putus
+                const doubleBaris = [...baris, ...baris];
+                
+                newsContainer.innerHTML = "";
+                doubleBaris.forEach(row => {
                     const [judul, link, gambar] = row.split(',');
-                    if (judul) {
-                        newsContainer.innerHTML += `
-                            <div class="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100 flex flex-col hover:shadow-md transition">
-                                <img src="${gambar}" class="w-full h-40 object-cover">
-                                <div class="p-4">
-                                    <h3 class="font-bold text-gray-800 text-sm line-clamp-2">${judul}</h3>
-                                    <a href="${link}" target="_blank" class="mt-4 text-[10px] font-bold text-blue-600 uppercase tracking-widest inline-block hover:underline">Baca Selengkapnya</a>
-                                </div>
-                            </div>`;
-                    }
+                    newsContainer.innerHTML += `
+                        <div class="min-w-[280px] bg-white rounded-2xl shadow-sm border overflow-hidden flex-shrink-0 group">
+                            <div class="h-56 overflow-hidden"> <img src="${gambar}" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+                            </div>
+                            <div class="p-5">
+                                <h3 class="font-bold text-xs text-gray-700 line-clamp-2 leading-relaxed">${judul}</h3>
+                                <a href="${link}" target="_blank" class="text-[9px] text-blue-500 font-extrabold mt-4 inline-block tracking-widest uppercase">Baca Kabar →</a>
+                            </div>
+                        </div>`;
                 });
-            } catch (err) {
-                newsContainer.innerHTML = "<p class='text-gray-400 text-xs italic text-center col-span-3'>Gagal memuat berita dari Sheets.</p>";
-            }
+
+                // Auto Scroll Infinite
+                let isHovered = false;
+                newsContainer.onmouseenter = () => isHovered = true;
+                newsContainer.onmouseleave = () => isHovered = false;
+
+                setInterval(() => {
+                    if (!isHovered) {
+                        newsContainer.scrollLeft += 1;
+                        // Jika sudah sampai setengah (karena data diduplikasi), balik ke awal
+                        if (newsContainer.scrollLeft >= newsContainer.scrollWidth / 2) {
+                            newsContainer.scrollLeft = 0;
+                        }
+                    }
+                }, 20); // Kecepatan geser halus
+
+            } catch (err) { console.error(err); }
         }
+
+        // Event Focus Search
+        const searchInput = document.getElementById('searchInput');
+        const recBox = document.getElementById('recommendationBox');
         
-        // Panggil fungsinya di paling bawah
-        ambilBeritaDariSheets();
+        searchInput.onfocus = () => recBox.classList.remove('hidden');
+        // Tutup dropdown kalau klik di luar
+        document.onclick = (e) => {
+            if (!e.target.closest('.group')) recBox.classList.add('hidden');
+        };
 
-        <footer class="bg-[#002d55] text-white py-12 mt-20">
-    <div class="container mx-auto px-4">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
-            
-            <div class="flex flex-col items-center md:items-start text-center md:text-left">
-                <img src="https://manicjambi.sch.id/img/identitas/icputih.png" alt="Logo MAN IC" class="max-w-[200px] mb-4">
-                <p class="text-sm leading-relaxed text-gray-300">
-                    Jl. Lintas Jambi No.KM. 21, Pijoan, Kec. Jambi Luar Kota, Kabupaten Muaro Jambi, Jambi 36361, Indonesia
-                </p>
-            </div>
-
-            <div class="hidden md:block">
-                <h5 class="text-lg font-bold mb-4 border-b border-blue-400 pb-2 inline-block">Tentang Kami</h5>
-                <ul class="space-y-2 text-sm text-gray-300">
-                    <li><a href="https://manicjambi.sch.id/profil/sejarah" target="_blank" class="hover:text-white transition">Sejarah</a></li>
-                    <li><a href="https://manicjambi.sch.id/profil/visimisi" target="_blank" class="hover:text-white transition">Visi & Misi</a></li>
-                    <li><a href="https://manicjambi.sch.id/profil/struktur" target="_blank" class="hover:text-white transition">Struktur Organisasi</a></li>
-                    <li><a href="https://manicjambi.sch.id/profil/fasilitas" target="_blank" class="hover:text-white transition">Fasilitas</a></li>
-                    <li><a href="https://manicjambi.sch.id/complaints/create" target="_blank" class="hover:text-white transition">Layanan Pengaduan</a></li>
-                </ul>
-            </div>
-
-            <div class="hidden md:block">
-                <h5 class="text-lg font-bold mb-4 border-b border-blue-400 pb-2 inline-block">Kontak Kami</h5>
-                <div class="text-sm text-gray-300 space-y-2">
-                    <p>Email: <span class="text-blue-300">info@manicjambi.sch.id</span></p>
-                    <p>Whatsapp: <a href="https://wa.me/628117424910" class="hover:text-white transition">628117424910</a></p>
-                </div>
-            </div>
-
-        </div>
-
-        <hr class="my-8 border-gray-600">
-        
-        <div class="text-center text-sm text-gray-400">
-            <p>Copyright &copy; <span id="year"></span> All rights reserved | MAN IC Jambi</p>
-        </div>
-    </div>
-</footer>
-
-<script>
-    // Biar tahunnya update otomatis
-    document.getElementById('year').textContent = new Date().getFullYear();
-</script>
+        // Initialize
+        loadBooks();
+        loadNews();
+        document.getElementById('prevBtn').onclick = () => { if(currentPage > 1) { currentPage--; renderBooks(); } };
+        document.getElementById('nextBtn').onclick = () => { currentPage++; renderBooks(); };
     </script>
 </body>
 </html>
-
-
-
-
-
