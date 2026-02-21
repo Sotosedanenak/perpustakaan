@@ -12,31 +12,38 @@
         .text-itb { color: #002d55; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-        
-        /* Animasi Fokus Search */
-        #searchInput:focus {
-            transform: scale(1.02);
-            box-shadow: 0 10px 25px -5px rgba(0, 45, 85, 0.1);
-        }
+        #searchInput:focus { transform: scale(1.01); }
     </style>
 </head>
 <body class="bg-[#f8f9fa] text-gray-800">
 
-    <nav class="bg-itb text-white py-4 shadow-md sticky top-0 z-50">
-        <div class="container mx-auto px-6 flex justify-between items-center">
-            <div class="flex items-center gap-3">
-                <img src="https://manicjambi.sch.id/img/identitas/icputih.png" class="h-10" alt="Logo">
-                <div class="border-l pl-3 hidden sm:block leading-tight">
-                    <h1 class="text-sm font-bold uppercase tracking-wider">UPT Perpustakaan</h1>
-                    <p class="text-[10px] text-blue-200">Insan Cendekia Jambi</p>
-                </div>
-            </div>
-            <div class="text-xs font-semibold space-x-6 uppercase tracking-widest">
-                <a href="#" class="hover:text-blue-300">Beranda</a>
-                <a href="#koleksi" class="hover:text-blue-300">Koleksi</a>
+<nav id="mainNavbar" class="bg-itb text-white py-4 shadow-md sticky top-0 z-50 transition-all duration-500 transform translate-y-0">
+    <div class="container mx-auto px-6 flex justify-between items-center">
+        <div class="flex items-center gap-3">
+            <img src="https://manicjambi.sch.id/img/identitas/icputih.png" class="h-10" alt="Logo">
+            <div class="border-l pl-3 hidden sm:block leading-tight">
+                <h1 class="text-sm font-bold uppercase tracking-wider">UPT Perpustakaan</h1>
+                <p class="text-[10px] text-blue-200">MAN Insan Cendekia Jambi</p>
             </div>
         </div>
-    </nav>
+
+        <div class="hidden md:flex items-center text-xs font-semibold space-x-6 uppercase tracking-widest">
+            <a href="index.html" class="hover:text-blue-300 transition">Beranda</a>
+            <a href="katalog.html" class="hover:text-blue-300 transition">Koleksi</a>
+            <a href="#" class="hover:text-blue-300 transition">Informasi</a>
+            <a href="https://manicjambi.sch.id/profil/struktur" class="hover:text-blue-300 transition">Struktur Organisasi</a>
+            <a href="#" class="hover:text-blue-300 transition">Fasilitas</a>
+        </div>
+
+        <div class="md:hidden">
+            <button class="text-white focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                </svg>
+            </button>
+        </div>
+    </div>
+</nav>
 
     <header class="bg-white border-b py-20">
         <div class="container mx-auto px-6 text-center">
@@ -44,44 +51,94 @@
             <div class="max-w-2xl mx-auto relative mt-8 group">
                 <div class="relative flex items-center">
                     <input type="text" id="searchInput" autocomplete="off" placeholder="Cari judul buku atau penulis..." 
-                           class="w-full border-2 border-gray-200 p-4 rounded-full pl-8 focus:border-blue-500 outline-none transition-all duration-300 shadow-sm text-sm">
+                           class="w-full border-2 border-gray-100 p-4 rounded-full pl-8 focus:border-blue-500 outline-none transition-all shadow-sm text-sm">
                     <button onclick="redirectSearch()" class="absolute right-3 bg-itb text-white px-6 py-2 rounded-full text-xs font-bold hover:bg-blue-800 transition">CARI</button>
                 </div>
-                
                 <div id="recommendationBox" class="hidden absolute top-full left-0 right-0 bg-white border mt-2 rounded-2xl shadow-xl z-40 overflow-hidden text-left">
-                    <div class="p-4 bg-gray-50 border-b text-[10px] font-bold text-gray-400 uppercase tracking-widest">Rekomendasi Untukmu</div>
-                    <div id="recList">
-                        </div>
+                    <div class="p-4 bg-gray-50 border-b text-[10px] font-bold text-gray-400 uppercase tracking-widest">Rekomendasi</div>
+                    <div id="recList"></div>
                 </div>
             </div>
         </div>
     </header>
 
-    <section class="container mx-auto px-6 my-16 overflow-hidden">
+    <section class="container mx-auto px-6 my-16">
+        <div class="text-center mb-10">
+            <h2 class="text-xl font-bold text-itb uppercase tracking-tighter">Jelajahi Subjek</h2>
+        </div>
+        <div class="grid grid-cols-2 md:grid-cols-5 gap-6">
+            <button onclick="goToKatalog('Kesusastraan')" class="flex flex-col items-center p-6 bg-white border border-gray-100 rounded-2xl hover:shadow-lg transition group">
+                <div class="text-4xl mb-3 group-hover:scale-110 transition">📚</div>
+                <span class="text-[10px] font-bold text-gray-500 uppercase">Kesusastraan</span>
+            </button>
+            <button onclick="goToKatalog('Sosial')" class="flex flex-col items-center p-6 bg-white border border-gray-100 rounded-2xl hover:shadow-lg transition group">
+                <div class="text-4xl mb-3 group-hover:scale-110 transition">🤝</div>
+                <span class="text-[10px] font-bold text-gray-500 uppercase">Ilmu Sosial</span>
+            </button>
+            <button onclick="goToKatalog('Sains')" class="flex flex-col items-center p-6 bg-white border border-gray-100 rounded-2xl hover:shadow-lg transition group">
+                <div class="text-4xl mb-3 group-hover:scale-110 transition">🔬</div>
+                <span class="text-[10px] font-bold text-gray-500 uppercase">Sains</span>
+            </button>
+            <button onclick="goToKatalog('Agama')" class="flex flex-col items-center p-6 bg-white border border-gray-100 rounded-2xl hover:shadow-lg transition group">
+                <div class="text-4xl mb-3 group-hover:scale-110 transition">🕌</div>
+                <span class="text-[10px] font-bold text-gray-500 uppercase">Agama</span>
+            </button>
+            <button onclick="openModal()" class="flex flex-col items-center p-6 bg-itb text-white rounded-2xl hover:shadow-lg transition group">
+                <div class="text-4xl mb-3 group-hover:rotate-90 transition">➕</div>
+                <span class="text-[10px] font-bold uppercase">Lainnya</span>
+            </button>
+        </div>
+    </section>
+
+    <section class="container mx-auto px-6 mb-16">
         <div class="flex items-center justify-between mb-8">
-            <h2 class="text-xl font-bold text-gray-800 uppercase tracking-tighter">Kabar Madrasah</h2>
+            <h2 class="text-xl font-bold text-gray-800 uppercase tracking-tighter">🔥 Terpopuler</h2>
+            <a href="katalog.html" class="text-[10px] font-bold text-blue-600 hover:underline">LIHAT SEMUA →</a>
         </div>
-        <div class="relative group">
-            <div id="newsContainer" class="flex gap-6 overflow-x-auto no-scrollbar scroll-smooth">
-                </div>
-        </div>
+        <div id="populerGrid" class="grid grid-cols-2 md:grid-cols-5 gap-8"></div>
     </section>
 
-    <section id="koleksi" class="container mx-auto px-6 mb-24">
-        <div class="flex items-center gap-4 mb-8">
-            <h2 class="text-2xl font-bold text-gray-800 uppercase tracking-tighter">Koleksi Buku</h2>
-            <div class="h-[2px] bg-gray-200 flex-grow"></div>
+    <section class="container mx-auto px-6 mb-16">
+        <div class="flex items-center justify-between mb-8">
+            <h2 class="text-xl font-bold text-gray-800 uppercase tracking-tighter">✨ Baru Ditambahkan</h2>
+            <a href="katalog.html" class="text-[10px] font-bold text-blue-600 hover:underline">LIHAT SEMUA →</a>
         </div>
-        
-        <main id="bookGrid" class="grid grid-cols-2 md:grid-cols-5 gap-8">
-            </main>
-
-        <div class="flex justify-center items-center mt-12 gap-4">
-            <button id="prevBtn" class="px-4 py-2 bg-itb text-white rounded-lg disabled:opacity-20 text-[10px] font-bold uppercase">Prev</button>
-            <span id="pageInfo" class="text-xs font-bold text-gray-400 italic">Hal 1</span>
-            <button id="nextBtn" class="px-4 py-2 bg-itb text-white rounded-lg disabled:opacity-20 text-[10px] font-bold uppercase">Next</button>
-        </div>
+        <div id="baruGrid" class="grid grid-cols-2 md:grid-cols-5 gap-8"></div>
     </section>
+
+<section class="bg-[#fcfcfc] py-20">
+    <div class="container mx-auto px-6">
+        <div class="mb-10">
+            <h2 class="text-2xl font-bold text-gray-800">Penikmat Koleksi tahun ini</h2>
+            <p class="text-gray-500 text-sm mt-2">Pengunjung terbaik kami, ada di sini. Nama dan foto Anda juga bisa muncul di sini. Rajin-rajinlah berkunjung dan membaca.</p>
+        </div>
+        <div id="topReadersGrid" class="flex flex-wrap gap-6 justify-between">
+            </div>
+    </div>
+</section>
+
+    <section class="container mx-auto px-6 my-24 overflow-hidden">
+        <h2 class="text-xl font-bold text-gray-800 uppercase tracking-tighter mb-8">Berita Madrasah</h2>
+        <div id="newsContainer" class="flex gap-6 overflow-x-auto no-scrollbar scroll-smooth"></div>
+    </section>
+
+    <div id="subjectModal" class="fixed inset-0 bg-black/60 z-[100] hidden flex items-center justify-center p-4 backdrop-blur-sm">
+        <div class="bg-white w-full max-w-2xl rounded-3xl overflow-hidden shadow-2xl">
+            <div class="p-6 border-b flex justify-between items-center bg-gray-50 text-itb">
+                <h3 class="font-bold uppercase tracking-widest text-sm">Semua Subjek</h3>
+                <button onclick="closeModal()" class="text-2xl">&times;</button>
+            </div>
+            <div class="p-8 grid grid-cols-2 sm:grid-cols-3 gap-4 max-h-[70vh] overflow-y-auto">
+                <button onclick="goToKatalog('Karya Umum')" class="p-4 border rounded-xl hover:bg-blue-50 text-left text-[10px] font-bold">000 Karya Umum</button>
+                <button onclick="goToKatalog('Filsafat')" class="p-4 border rounded-xl hover:bg-blue-50 text-left text-[10px] font-bold">100 Filsafat</button>
+                <button onclick="goToKatalog('Agama')" class="p-4 border rounded-xl hover:bg-blue-50 text-left text-[10px] font-bold">200 Agama</button>
+                <button onclick="goToKatalog('Sosial')" class="p-4 border rounded-xl hover:bg-blue-50 text-left text-[10px] font-bold">300 Ilmu Sosial</button>
+                <button onclick="goToKatalog('Sains')" class="p-4 border rounded-xl hover:bg-blue-50 text-left text-[10px] font-bold">500 Sains</button>
+                <button onclick="goToKatalog('Teknologi')" class="p-4 border rounded-xl hover:bg-blue-50 text-left text-[10px] font-bold">600 Teknologi</button>
+                <button onclick="goToKatalog('Kesusastraan')" class="p-4 border rounded-xl hover:bg-blue-50 text-left text-[10px] font-bold">800 Kesusastraan</button>
+            </div>
+        </div>
+    </div>
 
     <footer class="bg-[#1a1a1a] text-white pt-16 pb-8">
         <div class="container mx-auto px-6">
@@ -100,8 +157,8 @@
                 </div>
                 <div>
                     <h5 class="font-bold text-sm uppercase tracking-widest mb-6 text-blue-400">Hubungi Kami</h5>
-                    <p class="text-sm text-gray-500">Email: <span class="text-gray-300">info@manicjambi.sch.id</span></p>
-                    <p class="text-sm text-gray-500 mt-2">WA: <span class="text-gray-300">628117424910</span></p>
+                    <p class="text-sm text-gray-500">Email: <span class="text-gray-300">mungkinemailmilikperpustakaan@manicjambi.sch.id</span></p>
+                    <p class="text-sm text-gray-500 mt-2">WA: <span class="text-gray-300">6281234567890</span></p>
                 </div>
             </div>
             <div class="border-t border-gray-800 pt-8 text-center">
@@ -112,141 +169,183 @@
 
     <script>
         const urlExcel = "https://docs.google.com/spreadsheets/d/e/2PACX-1vROCMn91-Qilsgu3tDqTbpkM0eXDY0lbXj5bKTFK_h6tjA5VvQoMOxCfHI6hZ2ESVVTE3i8noQNWrXi/pub?gid=0&single=true&output=csv";
-        const urlBeritaExcel = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQEVkB8Nyc04PZgG6RMmOQ5khLshL617nbrzBRxY8wU1S-OJZ3uoO9oLbaW9mihozSFxHtgEB3hSSBn/pub?gid=0&single=true&output=csv";
-
+        const urlBeritaExcel = "https://docs.google.com/spreadsheets/d/e/2PACX-1vROCMn91-Qilsgu3tDqTbpkM0eXDY0lbXj5bKTFK_h6tjA5VvQoMOxCfHI6hZ2ESVVTE3i8noQNWrXi/pub?gid=184585655&single=true&output=csv";
+        const urlPenikmatExcel = "https://docs.google.com/spreadsheets/d/e/2PACX-1vROCMn91-Qilsgu3tDqTbpkM0eXDY0lbXj5bKTFK_h6tjA5VvQoMOxCfHI6hZ2ESVVTE3i8noQNWrXi/pub?gid=227539774&single=true&output=csv";
         let allBooks = [];
-        let currentPage = 1;
-        const booksPerPage = 5;
 
-        // LOAD DATA BUKU & REKOMENDASI
-        async function loadBooks() {
+        async function loadInitialData() {
             try {
-                const response = await fetch(urlExcel);
-                const data = await response.text();
-                const baris = data.split('\n').slice(1);
-                allBooks = baris.map(row => row.split(',')).filter(r => r[0]);
-                renderBooks();
+                // Load Buku
+                const resBooks = await fetch(urlExcel);
+                const dataBooks = await resBooks.text();
+                allBooks = dataBooks.split('\n').slice(1).map(row => row.split(',')).filter(r => r[0] && r[0].trim() !== "");
+                
+                renderBerandaKoleksi();
                 renderRecommendations();
-            } catch (err) { console.error(err); }
+                loadNews();
+                
+                // Load Penikmat Koleksi dari Spreadsheet
+                loadTopReaders(); 
+            } catch (err) { console.error("Error loading data:", err); }
         }
 
-        function renderBooks(filter = "") {
-            const bookGrid = document.getElementById('bookGrid');
-            const filtered = allBooks.filter(b => b[0].toLowerCase().includes(filter.toLowerCase()));
-            
-            const start = (currentPage - 1) * booksPerPage;
-            const end = start + booksPerPage;
-            const paginated = filtered.slice(start, end);
-
-            bookGrid.innerHTML = "";
-            paginated.forEach(b => {
-                bookGrid.innerHTML += `
-                    <div class="group cursor-pointer">
-                        <div class="aspect-[3/4] overflow-hidden rounded-xl shadow-sm group-hover:shadow-md transition duration-300">
-                            <img src="${b[4]}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
-                        </div>
-                        <div class="mt-4 px-1">
-                            <h3 class="text-[11px] font-bold text-gray-800 line-clamp-1">${b[0]}</h3>
-                            <p class="text-[10px] text-gray-400">${b[1]}</p>
-                        </div>
-                    </div>`;
-            });
-
-            document.getElementById('pageInfo').innerText = `Hal ${currentPage}`;
-            document.getElementById('prevBtn').disabled = currentPage === 1;
-            document.getElementById('nextBtn').disabled = end >= filtered.length;
-        }
-
-        // FUNGSI REKOMENDASI
-        function renderRecommendations() {
-            const recList = document.getElementById('recList');
-            // Ambil 3 buku acak untuk rekomendasi
-            const shuffled = [...allBooks].sort(() => 0.5 - Math.random()).slice(0, 3);
-            recList.innerHTML = "";
-            shuffled.forEach(b => {
-                recList.innerHTML += `
-                    <div class="flex items-center gap-4 p-3 hover:bg-gray-50 cursor-pointer transition border-b border-gray-100 last:border-0" onclick="document.getElementById('searchInput').value='${b[0]}'; redirectSearch();">
-                        <img src="${b[4]}" class="w-10 h-14 object-cover rounded shadow-sm">
-                        <div>
-                            <p class="text-xs font-bold text-gray-800">${b[0]}</p>
-                            <p class="text-[10px] text-gray-400">${b[1]}</p>
-                        </div>
-                    </div>`;
-            });
-        }
-
-        // REDIRECT SEARCH
-        function redirectSearch() {
-            const query = document.getElementById('searchInput').value;
-            if(!query) return alert("Masukkan kata kunci pencarian!");
-            
-            // Simulasi redirect ke web baru
-            const btn = document.querySelector('header button');
-            btn.innerHTML = "MEMUAT...";
-            setTimeout(() => {
-                // Ganti URL ini dengan web barumu nanti
-                window.location.href = `https://manicjambi.sch.id/katalog?cari=${encodeURIComponent(query)}`;
-            }, 800);
-        }
-
-        // LOAD BERITA & INFINITE LOOP
-        async function loadNews() {
-            const newsContainer = document.getElementById('newsContainer');
+        async function loadTopReaders() {
+            const container = document.getElementById('topReadersGrid');
             try {
-                const response = await fetch(urlBeritaExcel);
-                const data = await response.text();
-                const baris = data.split('\n').slice(1).filter(r => r[0]);
+                const res = await fetch(urlPenikmatExcel);
+                const data = await res.text();
                 
-                // Gandakan data berita agar bisa di-loop tanpa putus
-                const doubleBaris = [...baris, ...baris];
-                
-                newsContainer.innerHTML = "";
-                doubleBaris.forEach(row => {
-                    const [judul, link, gambar] = row.split(',');
-                    newsContainer.innerHTML += `
-                        <div class="min-w-[280px] bg-white rounded-2xl shadow-sm border overflow-hidden flex-shrink-0 group">
-                            <div class="h-56 overflow-hidden"> <img src="${gambar}" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+                const readers = data.split('\n')
+                                    .slice(1)
+                                    .map(row => {
+                                        // Cek pemisah titik koma atau koma
+                                        let cols = row.includes(';') ? row.split(';') : row.split(',');
+                                        // Bersihkan SETIAP kolom dari tanda kutip ganda dan spasi di ujung
+                                        return cols.map(col => col.replace(/[双"]/g, '').trim());
+                                    })
+                                    .filter(r => r[0] && r[0] !== "")
+                                    .slice(0, 3);
+
+                container.innerHTML = readers.map(r => `
+                    <div class="bg-white border border-gray-100 rounded-lg p-8 shadow-sm flex flex-col items-center flex-1 min-w-[250px] transition hover:shadow-md group">
+                        <div class="w-24 h-24 rounded-full overflow-hidden mb-6 border-4 border-blue-600 shadow-inner group-hover:scale-105 transition duration-500">
+                            <img src="${r[2]}" class="w-full h-full object-cover" 
+                                onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(r[0])}&background=002d55&color=fff'">
+                        </div>
+                        
+                        <h3 class="text-lg font-bold text-gray-800 text-center">${r[0]}</h3>
+                        <p class="text-sm text-gray-500 mb-6 uppercase tracking-widest">${r[1]}</p>
+                        
+                        <div class="flex items-center gap-4 border-t pt-4 w-full justify-center">
+                            <div class="text-center">
+                                <span class="font-bold text-gray-800">${r[3] || '0'}</span>
+                                <span class="text-xs text-gray-400 ml-1">Loans</span>
                             </div>
+                            <div class="text-gray-200">|</div>
+                            <div class="text-center">
+                                <span class="font-bold text-gray-800">${r[4] || '0'}</span>
+                                <span class="text-xs text-gray-400 ml-1">Title</span>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (err) { 
+                console.error("Gagal load data penikmat:", err);
+            }
+        }
+
+        function renderBerandaKoleksi() {
+            const populerGrid = document.getElementById('populerGrid');
+            const baruGrid = document.getElementById('baruGrid');
+
+            // 1. Baru Ditambahkan: 5 baris paling bawah di spreadsheet
+            const terbaru = [...allBooks].reverse().slice(0, 5);
+            baruGrid.innerHTML = terbaru.map(b => createCard(b)).join('');
+
+            // 2. Terpopuler: Cari kata 'Populer' di kolom G (index 6)
+            const populer = allBooks.filter(b => b[6] && b[6].trim().toLowerCase() === 'populer').slice(0, 5);
+            
+            // Backup jika kolom Populer kosong, ambil 5 random
+            const displayPopuler = populer.length > 0 ? populer : [...allBooks].sort(() => 0.5 - Math.random()).slice(0, 5);
+            populerGrid.innerHTML = displayPopuler.map(b => createCard(b)).join('');
+        }
+
+        function createCard(b) {
+            return `
+                <div class="group cursor-pointer">
+                    <div class="aspect-[3/4] overflow-hidden rounded-xl shadow-sm group-hover:shadow-md transition duration-300 bg-gray-100">
+                        <img src="${b[4]}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" onerror="this.src='https://via.placeholder.com/300x400?text=No+Cover'">
+                    </div>
+                    <div class="mt-4 px-1">
+                        <h3 class="text-[11px] font-bold text-gray-800 line-clamp-1 uppercase">${b[0]}</h3>
+                        <p class="text-[9px] text-gray-400 mt-1">${b[1]}</p>
+                    </div>
+                </div>`;
+        }
+
+        async function loadNews() {
+            const container = document.getElementById('newsContainer');
+            try {
+                const res = await fetch(urlBeritaExcel);
+                const text = await res.text();
+                const rows = text.split('\n').slice(1).filter(r => r[0]);
+                const doubleRows = [...rows, ...rows];
+                
+                container.innerHTML = doubleRows.map(row => {
+                    const [judul, link, gambar] = row.split(',');
+                    return `
+                        <div class="min-w-[280px] bg-white rounded-2xl shadow-sm border overflow-hidden flex-shrink-0 group">
+                            <div class="h-48 overflow-hidden"><img src="${gambar}" class="w-full h-full object-cover group-hover:scale-110 transition duration-700"></div>
                             <div class="p-5">
-                                <h3 class="font-bold text-xs text-gray-700 line-clamp-2 leading-relaxed">${judul}</h3>
-                                <a href="${link}" target="_blank" class="text-[9px] text-blue-500 font-extrabold mt-4 inline-block tracking-widest uppercase">Baca Kabar →</a>
+                                <h3 class="font-bold text-xs text-gray-700 line-clamp-2">${judul}</h3>
+                                <a href="${link}" target="_blank" class="text-[9px] text-blue-500 font-bold mt-4 inline-block uppercase tracking-wider">Baca →</a>
                             </div>
                         </div>`;
-                });
+                }).join('');
 
-                // Auto Scroll Infinite
                 let isHovered = false;
-                newsContainer.onmouseenter = () => isHovered = true;
-                newsContainer.onmouseleave = () => isHovered = false;
-
+                container.onmouseenter = () => isHovered = true;
+                container.onmouseleave = () => isHovered = false;
                 setInterval(() => {
                     if (!isHovered) {
-                        newsContainer.scrollLeft += 1;
-                        // Jika sudah sampai setengah (karena data diduplikasi), balik ke awal
-                        if (newsContainer.scrollLeft >= newsContainer.scrollWidth / 2) {
-                            newsContainer.scrollLeft = 0;
-                        }
+                        container.scrollLeft += 1;
+                        if (container.scrollLeft >= container.scrollWidth / 2) container.scrollLeft = 0;
                     }
-                }, 20); // Kecepatan geser halus
-
+                }, 30);
             } catch (err) { console.error(err); }
         }
 
-        // Event Focus Search
+        function renderRecommendations() {
+            const list = document.getElementById('recList');
+            const shuffled = [...allBooks].sort(() => 0.5 - Math.random()).slice(0, 3);
+            list.innerHTML = shuffled.map(b => `
+                <div class="flex items-center gap-4 p-3 hover:bg-gray-50 cursor-pointer border-b last:border-0" onclick="setSearch('${b[0]}')">
+                    <img src="${b[4]}" class="w-8 h-12 object-cover rounded shadow-sm">
+                    <div><p class="text-xs font-bold text-gray-800">${b[0]}</p></div>
+                </div>
+            `).join('');
+        }
+
+        function setSearch(val) { document.getElementById('searchInput').value = val; redirectSearch(); }
+        
+        function redirectSearch() {
+            const q = document.getElementById('searchInput').value;
+            if(!q) return;
+            window.location.href = `katalog.html?cari=${encodeURIComponent(q)}`;
+        }
+
+        function goToKatalog(subjek) {
+            window.location.href = `katalog.html?subjek=${encodeURIComponent(subjek)}`;
+        }
+
+        function openModal() { document.getElementById('subjectModal').classList.remove('hidden'); document.body.style.overflow='hidden'; }
+        function closeModal() { document.getElementById('subjectModal').classList.add('hidden'); document.body.style.overflow='auto'; }
+
+        // Event Search Focus
         const searchInput = document.getElementById('searchInput');
         const recBox = document.getElementById('recommendationBox');
-        
         searchInput.onfocus = () => recBox.classList.remove('hidden');
-        // Tutup dropdown kalau klik di luar
-        document.onclick = (e) => {
-            if (!e.target.closest('.group')) recBox.classList.add('hidden');
-        };
+        document.addEventListener('click', (e) => { if(!e.target.closest('.group')) recBox.classList.add('hidden'); });
 
-        // Initialize
-        loadBooks();
-        loadNews();
-        document.getElementById('prevBtn').onclick = () => { if(currentPage > 1) { currentPage--; renderBooks(); } };
-        document.getElementById('nextBtn').onclick = () => { currentPage++; renderBooks(); };
+        loadInitialData();
+
+        let lastScrollTop = 0;
+        const navbar = document.getElementById('mainNavbar');
+
+        window.addEventListener('scroll', function() {
+            let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            
+            if (scrollTop > lastScrollTop && scrollTop > 100) {
+                // Scroll Ke Bawah - Sembunyikan Navbar (Geser ke atas sejauh 100%)
+                navbar.style.transform = 'translateY(-100%)';
+            } else {
+                // Scroll Ke Atas - Munculkan Navbar
+                navbar.style.transform = 'translateY(0)';
+            }
+            
+            // Update posisi scroll terakhir, pastikan tidak negatif (untuk Safari)
+            lastScrollTop = scrollTop <= 0 ? 0 : scrollTop; 
+        }, false);
     </script>
 </body>
 </html>
