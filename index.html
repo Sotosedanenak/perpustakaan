@@ -104,9 +104,55 @@
         
         // Panggil fungsinya di paling bawah
         ambilBeritaDariSheets();
+
+        <footer class="bg-[#002d55] text-white py-12 mt-20">
+    <div class="container mx-auto px-4">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+            
+            <div class="flex flex-col items-center md:items-start text-center md:text-left">
+                <img src="https://manicjambi.sch.id/img/identitas/icputih.png" alt="Logo MAN IC" class="max-w-[200px] mb-4">
+                <p class="text-sm leading-relaxed text-gray-300">
+                    Jl. Lintas Jambi No.KM. 21, Pijoan, Kec. Jambi Luar Kota, Kabupaten Muaro Jambi, Jambi 36361, Indonesia
+                </p>
+            </div>
+
+            <div class="hidden md:block">
+                <h5 class="text-lg font-bold mb-4 border-b border-blue-400 pb-2 inline-block">Tentang Kami</h5>
+                <ul class="space-y-2 text-sm text-gray-300">
+                    <li><a href="https://manicjambi.sch.id/profil/sejarah" target="_blank" class="hover:text-white transition">Sejarah</a></li>
+                    <li><a href="https://manicjambi.sch.id/profil/visimisi" target="_blank" class="hover:text-white transition">Visi & Misi</a></li>
+                    <li><a href="https://manicjambi.sch.id/profil/struktur" target="_blank" class="hover:text-white transition">Struktur Organisasi</a></li>
+                    <li><a href="https://manicjambi.sch.id/profil/fasilitas" target="_blank" class="hover:text-white transition">Fasilitas</a></li>
+                    <li><a href="https://manicjambi.sch.id/complaints/create" target="_blank" class="hover:text-white transition">Layanan Pengaduan</a></li>
+                </ul>
+            </div>
+
+            <div class="hidden md:block">
+                <h5 class="text-lg font-bold mb-4 border-b border-blue-400 pb-2 inline-block">Kontak Kami</h5>
+                <div class="text-sm text-gray-300 space-y-2">
+                    <p>Email: <span class="text-blue-300">info@manicjambi.sch.id</span></p>
+                    <p>Whatsapp: <a href="https://wa.me/628117424910" class="hover:text-white transition">628117424910</a></p>
+                </div>
+            </div>
+
+        </div>
+
+        <hr class="my-8 border-gray-600">
+        
+        <div class="text-center text-sm text-gray-400">
+            <p>Copyright &copy; <span id="year"></span> All rights reserved | MAN IC Jambi</p>
+        </div>
+    </div>
+</footer>
+
+<script>
+    // Biar tahunnya update otomatis
+    document.getElementById('year').textContent = new Date().getFullYear();
+</script>
     </script>
 </body>
 </html>
+
 
 
 
